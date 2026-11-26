@@ -31,28 +31,32 @@ commit (or give the job a token that may).
 
 ## GitHub Pages
 
-The `deploy` job publishes `dist/` to GitHub Pages. It runs only on a push to
-`main`, after the `release` job, and checks out `main` so the version just
-released is the one built in.
+Two jobs publish `dist/` to GitHub Pages. They run only on a push to `main`,
+after the `release` job.
 
-Its steps:
+`build-pages` checks out `main`, so the version just released is the one
+built in, and then:
 
-1. Check out `main`, install, `actions/configure-pages`.
-2. `pnpm build` with `SW_VERSION` set to the commit SHA (below).
-3. `actions/upload-pages-artifact` with `dist/`.
-4. `actions/deploy-pages`.
+1. Installs and runs `actions/configure-pages`.
+2. Runs `pnpm build` with `SW_VERSION` set to the commit SHA (below).
+3. Uploads `dist/` with `actions/upload-pages-artifact`.
+
+`deploy` then runs `actions/deploy-pages`. They are separate jobs because a
+freshly uploaded artifact can take a few seconds to show in the run's
+artifact listing, and `deploy-pages` run straight after the upload fails
+with `No artifacts named "github-pages"`
+([actions/deploy-pages#451](https://github.com/actions/deploy-pages/issues/451)).
+`deploy` also retries after 15 s and then 60 s if the artifact still isn't
+listed. If it fails anyway, re-run only the `deploy` job: re-running
+`build-pages` uploads a second `github-pages` artifact, and `deploy-pages`
+then fails with `Multiple artifacts`, so that run needs a new push instead.
 
 The Pages source must be set to "GitHub Actions" in the repository settings.
-
-**The job is currently disabled.** Its condition starts with `false &&`,
-because Pages on a private repository needs a paid plan. It is to be
-enabled when the repository goes public, as part of the v1.0 release issue
-(#65), by deleting `false &&` from the `if:` line.
 
 ## Service worker version
 
 `build.ts` builds the service worker with its `VERSION` taken from the
-`SW_VERSION` environment variable, which the deploy job sets to the commit
+`SW_VERSION` environment variable, which the `build-pages` job sets to the commit
 SHA. So each release gets a fresh offline cache named `hexathlon-<sha>`, and
 the old one is deleted when the new worker activates. Locally `SW_VERSION`
 is unset, the version is `dev`, and the worker fetches from the network
