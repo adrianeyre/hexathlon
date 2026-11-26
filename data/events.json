@@ -1,0 +1,165 @@
+{
+  "description": "Per-Event simulation parameters, in the original's pixels and 60 Hz frames (ADR-0004). PROVISIONAL: none of these values has been measured from the original yet. They make the Events playable until the reference capture issues (#13-#22) land, at which point each value is replaced by its measured figure and the replay harness checks parity. Angles are in degrees above horizontal.",
+  "provisional": true,
+  "speed": {
+    "gainPerAlternation": 0.9,
+    "sameKeyGain": 0,
+    "decayPerFrame": 0.004,
+    "decayRatio": 0.012,
+    "max": 12,
+    "velocityPerUnit": 0.25
+  },
+  "sprint": {
+    "speed": {},
+    "distance": 1700,
+    "startSignalFrame": 120,
+    "falseStartsAllowed": 1,
+    "rival": {
+      "cycles": [
+        {
+          "topSpeed": 2.6,
+          "acceleration": 0.03,
+          "reactionFrames": 10
+        },
+        {
+          "topSpeed": 2.75,
+          "acceleration": 0.032,
+          "reactionFrames": 9
+        },
+        {
+          "topSpeed": 2.9,
+          "acceleration": 0.034,
+          "reactionFrames": 8
+        }
+      ],
+      "beyondTopSpeedStep": 0.05,
+      "topSpeedCap": 3.1,
+      "jitter": 0.04,
+      "seed": 20261126
+    }
+  },
+  "field": {
+    "attempts": 3,
+    "angle": {
+      "start": 0,
+      "riseRate": 1.5,
+      "max": 80,
+      "maxHoldFrames": 60
+    },
+    "efficiencyFloor": 0.3,
+    "maxRunUpFrames": 1200,
+    "settleFrames": 45
+  },
+  "longJump": {
+    "speed": {},
+    "foulLine": 600,
+    "angleWindow": {
+      "min": 40,
+      "max": 46
+    },
+    "penaltyPerDegree": 0.012,
+    "launchFactor": 1,
+    "gravity": 0.06,
+    "display": {
+      "metresPerPixel": 0.055
+    }
+  },
+  "javelin": {
+    "speed": {},
+    "foulLine": 520,
+    "angleWindow": {
+      "min": 42,
+      "max": 48
+    },
+    "penaltyPerDegree": 0.01,
+    "launchFactor": 1.6,
+    "gravity": 0.05,
+    "display": {
+      "metresPerPixel": 0.2
+    },
+    "releaseHeight": 14,
+    "followThroughDecay": 0.85
+  },
+  "hammer": {
+    "speed": {
+      "decayRatio": 0.006
+    },
+    "spinPerUnit": 0.5,
+    "startSpin": 180,
+    "releaseWindow": {
+      "centre": 0,
+      "halfWidth": 45
+    },
+    "maxSpinFrames": 900,
+    "angleWindow": {
+      "min": 40,
+      "max": 46
+    },
+    "penaltyPerDegree": 0.01,
+    "launchFactor": 1.5,
+    "gravity": 0.05,
+    "display": {
+      "metresPerPixel": 0.18
+    },
+    "releaseHeight": 12,
+    "circleRadius": 18
+  },
+  "hurdles": {
+    "speed": {},
+    "distance": 1870,
+    "firstHurdle": 233,
+    "hurdleSpacing": 155,
+    "hurdleCount": 10,
+    "startSignalFrame": 120,
+    "falseStartsAllowed": 1,
+    "jumpFrames": 24,
+    "jumpHeight": 14,
+    "clearWindow": {
+      "from": 6,
+      "to": 20
+    },
+    "collisionSpeedLoss": 0.45,
+    "stumbleFrames": 18,
+    "rival": {
+      "cycles": [
+        {
+          "topSpeed": 2.5,
+          "acceleration": 0.028,
+          "reactionFrames": 10
+        },
+        {
+          "topSpeed": 2.62,
+          "acceleration": 0.03,
+          "reactionFrames": 9
+        },
+        {
+          "topSpeed": 2.75,
+          "acceleration": 0.032,
+          "reactionFrames": 8
+        }
+      ],
+      "beyondTopSpeedStep": 0.04,
+      "topSpeedCap": 2.95,
+      "jitter": 0.04,
+      "seed": 20261127
+    },
+    "display": {}
+  },
+  "highJump": {
+    "speed": {},
+    "barX": 300,
+    "startHeight": 26,
+    "increment": 2,
+    "attemptsPerHeight": 3,
+    "angleWindow": {
+      "min": 55,
+      "max": 65
+    },
+    "penaltyPerDegree": 0.012,
+    "launchFactor": 0.9,
+    "gravity": 0.06,
+    "display": {
+      "metresPerPixel": 0.05
+    }
+  }
+}

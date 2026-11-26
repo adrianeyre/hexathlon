@@ -1,0 +1,12 @@
+{
+  "description": "Mark to Points conversion per Event: Points = (Mark - zero) x perUnit, rounded, never below zero, with the Mark in sim units (frames or pixels). Times have a negative perUnit, so faster earns more. A foul, false start or failed High Jump earns nothing. PROVISIONAL: not measured from the original yet (#21); set so a strong Mark earns about 1000 Points in every Event.",
+  "provisional": true,
+  "events": {
+    "sprint": { "zero": 900, "perUnit": -4 },
+    "longJump": { "zero": 0, "perUnit": 8 },
+    "javelin": { "zero": 0, "perUnit": 2.5 },
+    "hurdles": { "zero": 1100, "perUnit": -2.5 },
+    "hammer": { "zero": 0, "perUnit": 2.75 },
+    "highJump": { "zero": 0, "perUnit": 22 }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "description": "Standards: the Mark needed to qualify in each Event, per Cycle, in sim units (frames for times, the original's pixels for distances and heights; ADR-0004). Cycles past the listed ones move by beyondStep per Cycle until they reach limit. remainingAttempts says what happens once a field Mark reaches the Standard: skip ends the Event there, play keeps the remaining Attempts. PROVISIONAL: none of these values has been measured from the original yet (#20). They are set from what the provisional Events allow, and will be replaced by the captured values.",
+  "provisional": true,
+  "remainingAttempts": "skip",
+  "events": {
+    "sprint": { "unit": "frames", "cycles": [720, 690, 666], "beyondStep": -12, "limit": 630 },
+    "longJump": { "unit": "pixels", "cycles": [100, 109, 118], "beyondStep": 4, "limit": 130 },
+    "javelin": { "unit": "pixels", "cycles": [250, 290, 325], "beyondStep": 15, "limit": 390 },
+    "hurdles": { "unit": "frames", "cycles": [840, 800, 770], "beyondStep": -10, "limit": 700 },
+    "hammer": { "unit": "pixels", "cycles": [250, 280, 305], "beyondStep": 10, "limit": 360 },
+    "highJump": { "unit": "pixels", "cycles": [34, 38, 40], "beyondStep": 2, "limit": 44 }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reference-mark.schema.json",
+  "title": "Reference Mark",
+  "description": "What the original produced for one Input Trace: the Mark in sim units (frames or the original's pixels), how it was displayed, and any intermediate measurements. See calibration/PROTOCOL.md.",
+  "type": "object",
+  "required": ["formatVersion", "trace", "event", "marks"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "formatVersion": { "const": 1 },
+    "trace": {
+      "description": "Id of the Input Trace this belongs to. The file lives at the same relative path under calibration/reference/.",
+      "type": "string",
+      "pattern": "^(sprint|longJump|javelin|hurdles|hammer|highJump)/[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "event": { "enum": ["sprint", "longJump", "javelin", "hurdles", "hammer", "highJump"] },
+    "marks": {
+      "description": "One entry per human player in the trace.",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/playerMark" }
+    },
+    "measurements": {
+      "description": "Intermediate values read while frame-stepping, keyed by name (camelCase). Units go in the name or in 'units'. Examples: takeOffFrame, speedPerFrame, releaseAngle, rivalX.",
+      "type": "object",
+      "additionalProperties": {
+        "type": ["number", "array", "null"],
+        "items": { "type": ["number", "null"] }
+      }
+    },
+    "units": {
+      "description": "Unit of each measurement, keyed by the same name: 'frames', 'pixels', 'pixelsPerFrame', 'degrees', 'meterUnits' or a short description.",
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "method": { "enum": ["frame-step", "synthetic"] },
+        "tool": { "description": "Emulator or hardware and version used.", "type": "string" },
+        "by": { "description": "Who captured it (handle or initials).", "type": "string" }
+      }
+    },
+    "notes": { "type": "string" }
+  },
+  "$defs": {
+    "playerMark": {
+      "type": "object",
+      "required": ["player", "outcome", "value", "unit", "display"],
+      "additionalProperties": false,
+      "properties": {
+        "player": { "enum": [1, 2] },
+        "outcome": {
+          "description": "valid: a Mark was recorded. foul: overstepped or released past the line. falseStart: left before the gun. failed: no Mark for another reason (e.g. knocked the bar).",
+          "enum": ["valid", "foul", "falseStart", "failed"]
+        },
+        "value": {
+          "description": "The Mark in sim units, or null when there is none.",
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "unit": { "description": "frames for times; pixels (the original's) for distances and heights.", "enum": ["frames", "pixels"] },
+        "display": {
+          "description": "Exactly what the original showed for this Mark, including punctuation, or null if nothing was shown.",
+          "type": ["string", "null"]
+        }
+      }
+    }
+  }
+}

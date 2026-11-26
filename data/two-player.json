@@ -1,0 +1,7 @@
+{
+  "provisional": true,
+  "note": "Provisional two-player rules, to be replaced with the structure captured from the original (#22). Running Events: both players race side by side in these lanes, with no Rival. Field Events: 'alternate' takes turns Attempt by Attempt; 'consecutive' lets each player take all their Attempts in turn. A player who misses a Standard is out; 'allOut' ends the Session once every player is out, 'anyOut' as soon as one is. Points and High Score entries are always per player.",
+  "lanes": { "1": 3, "2": 2 },
+  "fieldTurns": "alternate",
+  "sessionEnds": "allOut"
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "input-trace.schema.json",
+  "title": "Input Trace",
+  "description": "A recorded sequence of player inputs for one Attempt, in 60 Hz frames, that can be replayed deterministically. See calibration/PROTOCOL.md.",
+  "type": "object",
+  "required": ["formatVersion", "id", "event", "cycle", "players", "frames", "source", "inputs"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "formatVersion": { "const": 1 },
+    "id": {
+      "description": "Unique id: '<event>/<slug>'. Matches the file path under calibration/traces/ without '.json'.",
+      "type": "string",
+      "pattern": "^(sprint|longJump|javelin|hurdles|hammer|highJump)/[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "event": { "$ref": "#/$defs/eventId" },
+    "cycle": { "description": "1-based Cycle the Attempt was played in.", "type": "integer", "minimum": 1 },
+    "players": { "description": "Number of human players.", "enum": [1, 2] },
+    "frames": {
+      "description": "Length of the trace in frames. Frame 0 is the first frame the Event accepts input (see PROTOCOL.md, 'Frame zero').",
+      "type": "integer",
+      "minimum": 1
+    },
+    "source": {
+      "description": "'original': captured from the original by following PROTOCOL.md. 'synthetic': hand-written for tests or examples, never a parity target.",
+      "enum": ["original", "synthetic"]
+    },
+    "description": { "type": "string" },
+    "expectedToFail": {
+      "description": "Set when the original's model differs from the sim's and the rework isn't done yet: why it fails and the issue tracking the rework, e.g. '#80: the Rival reacts to the player'. A normal run skips the trace; a strict run fails while any trace has this.",
+      "type": "string",
+      "minLength": 1
+    },
+    "attempt": { "description": "1-based Attempt number within the Event, for field Events.", "type": "integer", "minimum": 1 },
+    "barHeight": { "description": "High Jump only: bar height for this Attempt, in the original's pixels.", "type": "number", "minimum": 0 },
+    "inputs": {
+      "description": "Presses and releases in the order they happened. Frames never decrease.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/inputEdge" }
+    }
+  },
+  "$defs": {
+    "eventId": { "enum": ["sprint", "longJump", "javelin", "hurdles", "hammer", "highJump"] },
+    "inputEdge": {
+      "type": "object",
+      "required": ["frame", "player", "action", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "frame": { "type": "integer", "minimum": 0 },
+        "player": { "enum": [1, 2] },
+        "action": { "enum": ["RUN_A", "RUN_B", "ACTION"] },
+        "type": { "enum": ["press", "release"] }
+      }
+    }
+  }
+}
