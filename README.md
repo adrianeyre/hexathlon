@@ -23,10 +23,10 @@ one minified script with no backend.
 
 ## Play
 
-Once the repository is public, the game will be served by GitHub Pages at
-<https://adrianeyre.github.io/hexathlon/> (the deploy job is disabled until
-then; see [Deployment](docs/guide/deployment.md)). It can be installed as an
-app and played offline.
+The game is served by GitHub Pages at
+<https://adrianeyre.github.io/hexathlon/> (see
+[Deployment](docs/guide/deployment.md)). It can be installed as an app and
+played offline.
 
 | Action | Player 1 | Player 2 | Touch | Gamepad |
 |---|---|---|---|---|

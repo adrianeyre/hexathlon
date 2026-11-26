@@ -69,20 +69,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy:
-    name: Deploy to GitHub Pages
+  build-pages:
+    name: Build the GitHub Pages site
     needs: release
-    # Needs the repo's Pages source set to "GitHub Actions" (Settings > Pages), and
-    # the repo public or on a paid plan.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       # main, not the pushed commit, so the version semantic-release just set is built in.
       - uses: actions/checkout@v7
@@ -110,5 +103,43 @@ jobs:
         with:
           path: dist
 
+  deploy:
+    name: Deploy to GitHub Pages
+    # The upload and the deploy live in separate jobs, as GitHub's Pages starter
+    # workflow does. A freshly uploaded artifact can take seconds to appear in the
+    # run's artifact listing, so deploy-pages run straight after the upload fails
+    # with 'No artifacts named "github-pages"' (actions/deploy-pages#451). Separate
+    # jobs also mean a failed deploy can be re-run alone, without uploading a second
+    # "github-pages" artifact (which fails with 'Multiple artifacts').
+    needs: build-pages
+    # Needs the repo's Pages source set to "GitHub Actions" (Settings > Pages), and
+    # the repo public or on a paid plan.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url || steps.deployment-retry.outputs.page_url || steps.deployment-final.outputs.page_url }}
+    steps:
+      # deploy-pages fails before creating a deployment when the artifact isn't
+      # listed yet, so it is safe to try again after waiting for the listing.
       - id: deployment
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - if: steps.deployment.outcome == 'failure'
+        run: sleep 15
+
+      - id: deployment-retry
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v5
+        continue-on-error: true
+
+      - if: steps.deployment-retry.outcome == 'failure'
+        run: sleep 60
+
+      - id: deployment-final
+        if: steps.deployment-retry.outcome == 'failure'
         uses: actions/deploy-pages@v5
