@@ -1,0 +1,9 @@
+{
+  "description": "Difficulty levels chosen in Settings. Normal plays every Event exactly as data/events.json and data/standards.json say (the parity target). Easy and Hard scale a few values: speedGain multiplies the speed gained per run press, rivalPace multiplies the Rival's top speed, standardScale makes Standards tougher above 1 and easier below 1, angleWindowWiden adds degrees to each side of every take-off and release angle window, and clearWindowWiden adds frames to each side of the hurdle clear window.",
+  "default": "normal",
+  "levels": {
+    "easy": { "label": "EASY", "speedGain": 1.2, "rivalPace": 0.92, "standardScale": 0.9, "angleWindowWiden": 4, "clearWindowWiden": 3 },
+    "normal": { "label": "NORMAL", "speedGain": 1, "rivalPace": 1, "standardScale": 1, "angleWindowWiden": 0, "clearWindowWiden": 0 },
+    "hard": { "label": "HARD", "speedGain": 0.9, "rivalPace": 1.05, "standardScale": 1.08, "angleWindowWiden": -2, "clearWindowWiden": -2 }
+  }
+}

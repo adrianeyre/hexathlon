@@ -1,0 +1,102 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+body {
+  /* Stop the browser treating mashing taps as zoom, scroll or text selection. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#screen {
+  display: block;
+  /* JS sets the exact CSS size; these keep it sane before the first resize. */
+  max-width: 100%;
+  max-height: 100%;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  background: #000;
+}
+
+/* On-screen touch buttons (src/touch.ts). The overlay lets taps through to the
+   canvas except on the buttons themselves; JS sets each button's position and
+   size, never below 64 CSS pixels. */
+#touch {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.touch-button {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  touch-action: none;
+  border: 3px solid rgba(232, 240, 255, 0.75);
+  border-radius: 18px;
+  background: rgba(16, 22, 47, 0.45);
+  color: #ffffff;
+  font: 700 18px/1 ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Held: filled and dark text, so the change reads by brightness, not just hue. */
+.touch-button.held {
+  background: rgba(255, 210, 63, 0.85);
+  border-color: #ffffff;
+  color: #10162f;
+}
+
+.touch-action {
+  border-radius: 50%;
+}
+
+/* Text for search engines and screen readers that isn't drawn on screen: the
+   game itself is a canvas, so the page's heading and summary live here. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Shown only when JavaScript is off. */
+.noscript {
+  max-width: 32em;
+  padding: 1em;
+  font: 16px/1.5 system-ui, sans-serif;
+  text-align: center;
+}

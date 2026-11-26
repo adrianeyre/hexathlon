@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Hexathlon">
+<title>Hexathlon</title>
+<defs><clipPath id="inner"><polygon points="256,96 394.56,176 394.56,336 256,416 117.44,336 117.44,176"/></clipPath></defs>
+<g><path fill-rule="evenodd" fill="#000000" d="M256,66L420.54,161L420.54,351L256,446L91.46,351L91.46,161ZM256,96L394.56,176L394.56,336L256,416L117.44,336L117.44,176Z"/><g clip-path="url(#inner)"><rect x="0" y="302.5" width="512" height="7" fill="#000000"/><rect x="0" y="336.5" width="512" height="7" fill="#000000"/><rect x="0" y="370.5" width="512" height="7" fill="#000000"/><rect x="180" y="150" width="40" height="156" fill="#000000"/><rect x="292" y="150" width="40" height="156" fill="#000000"/><rect x="168" y="300" width="64" height="10" fill="#000000"/><rect x="280" y="300" width="64" height="10" fill="#000000"/><rect x="164" y="192" width="184" height="40" fill="#000000"/></g></g>
+</svg>

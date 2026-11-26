@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck, test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm typecheck
+
+      - run: pnpm test
+
+      # The minified site in dist/, exactly what is deployed.
+      - run: pnpm build
+
+      # Total transfer under 2 MB and an estimated load under 2 s (PRD 2, 9).
+      - run: pnpm size
+
+  release:
+    name: Release
+    needs: check
+    # Every push to main: semantic-release reads the Conventional Commits since
+    # the last tag, picks the next version, sets it in package.json (which the
+    # Settings screen shows), commits that back to main, tags it and publishes
+    # GitHub release notes. Commits that aren't feat/fix/breaking make no release.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: release
+    # Needs the repo's Pages source set to "GitHub Actions" (Settings > Pages), and
+    # the repo public or on a paid plan.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # main, not the pushed commit, so the version semantic-release just set is built in.
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - uses: actions/configure-pages@v6
+
+      # A new service worker VERSION per deploy gives players a fresh offline cache.
+      - name: Build the minified site
+        run: pnpm build
+        env:
+          SW_VERSION: ${{ github.sha }}
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

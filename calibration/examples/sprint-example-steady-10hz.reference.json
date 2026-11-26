@@ -1,0 +1,21 @@
+{
+  "$schema": "../schema/reference-mark.schema.json",
+  "formatVersion": 1,
+  "trace": "sprint/example-steady-10hz",
+  "event": "sprint",
+  "marks": [
+    { "player": 1, "outcome": "valid", "value": 612, "unit": "frames", "display": "10.20" }
+  ],
+  "measurements": {
+    "firstMoveFrame": 1,
+    "finishFrame": 612,
+    "speedMeterPerFrame": [0, 1, 1, 1, 1, 1, 1, 2, 2, 2]
+  },
+  "units": {
+    "firstMoveFrame": "frames",
+    "finishFrame": "frames",
+    "speedMeterPerFrame": "meterUnits"
+  },
+  "capture": { "method": "synthetic" },
+  "notes": "Format example only. Every number here is invented to show the shape of the file; none of it was measured from the original and it must never be used as a parity target. Real Reference Marks live under calibration/reference/."
+}

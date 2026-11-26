@@ -1,0 +1,25 @@
+{
+  "description": "What the announcer says, by callout id. The arcade originals of the genre speak the start commands, fouls, qualifying, records and the Event names; these phrases follow them. PROVISIONAL: the wording hasn't been checked against a capture of the original yet; correct a phrase here and the game says it. Spoken with the browser's built-in speech synthesis (no recorded samples), at the rate and pitch given.",
+  "provisional": true,
+  "rate": 1.05,
+  "pitch": 0.9,
+  "phrases": {
+    "onYourMarks": "On your marks",
+    "getSet": "Get set",
+    "falseStart": "False start",
+    "foul": "Foul",
+    "failed": "Failed",
+    "qualify": "Qualify",
+    "notQualified": "Not qualified",
+    "newRecord": "New record",
+    "gameOver": "Game over",
+    "player1": "Player one",
+    "player2": "Player two",
+    "sprint": "One hundred metres dash",
+    "longJump": "Long jump",
+    "javelin": "Javelin throw",
+    "hurdles": "One hundred and ten metres hurdles",
+    "hammer": "Hammer throw",
+    "highJump": "High jump"
+  }
+}

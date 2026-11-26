@@ -1,0 +1,5 @@
+# Hexathlon: every page may be crawled.
+User-agent: *
+Allow: /
+
+Sitemap: https://adrianeyre.github.io/hexathlon/sitemap.xml

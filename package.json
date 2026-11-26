@@ -1,0 +1,37 @@
+{
+  "name": "hexathlon",
+  "version": "0.0.0",
+  "private": true,
+  "description": "An arcade-style athletics game: mash keys to build speed and time your actions across six Events.",
+  "type": "module",
+  "license": "MIT",
+  "packageManager": "pnpm@12.23.0",
+  "engines": {
+    "node": "^26.13.0"
+  },
+  "scripts": {
+    "build": "node build.ts",
+    "start": "node build.ts && http-server dist -p 8080 -c-1",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "node --test",
+    "release": "semantic-release",
+    "compare": "node calibration/compare.ts",
+    "compare:strict": "node calibration/compare.ts --strict",
+    "icons": "node tools/make-icons.ts",
+    "sprites": "node tools/sprite-sheet.ts",
+    "attract": "node tools/make-attract-traces.ts",
+    "size": "node tools/size-check.ts",
+    "perf": "node tools/perf-check.ts",
+    "capture:plans": "node calibration/capture/plans.ts",
+    "capture:check": "node calibration/capture/check.ts",
+    "screenshots": "node tools/screenshots.ts"
+  },
+  "devDependencies": {
+    "@semantic-release/git": "11.0.1",
+    "@types/node": "26.6.10",
+    "esbuild": "0.25.12",
+    "http-server": "14.1.1",
+    "semantic-release": "25.0.9",
+    "typescript": "7.0.2"
+  }
+}
